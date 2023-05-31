@@ -124,7 +124,7 @@ class ScoreBoardServiceImplTest {
 
         // then
         assertEquals(2, scores.size());
-        assertEquals("1. Mexico 0 x 0 Canada", scores.get(0));
-        assertEquals("2. Spain 0 x 0 Brazil", scores.get(0));
+        assertEquals("1. Spain 0 x 0 Brazil", scores.get(0));
+        assertEquals("2. Mexico 0 x 0 Canada", scores.get(1));
     }
 }

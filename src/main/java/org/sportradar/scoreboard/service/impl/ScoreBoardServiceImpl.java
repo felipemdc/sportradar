@@ -6,6 +6,7 @@ import org.sportradar.scoreboard.domain.WorldCupTeam;
 import org.sportradar.scoreboard.service.GameService;
 import org.sportradar.scoreboard.service.ScoreBoardService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ScoreBoardServiceImpl implements ScoreBoardService {
@@ -47,5 +48,15 @@ public class ScoreBoardServiceImpl implements ScoreBoardService {
                     }
                 })
                 .toList();
+    }
+
+    @Override
+    public List<String> getGamesSummaryAsText(ScoreBoard board) {
+        List<Game> summary = getGamesSummary(board);
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < summary.size(); i++) {
+            result.add(String.format("%d. %s", i+1, summary.get(i).toString()));
+        }
+        return result;
     }
 }
