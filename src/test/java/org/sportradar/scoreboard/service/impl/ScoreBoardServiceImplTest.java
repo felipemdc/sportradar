@@ -107,4 +107,24 @@ class ScoreBoardServiceImplTest {
         assertEquals(WorldCupTeam.GERMANY, scores.get(4).getHomeTeam());
         assertEquals(WorldCupTeam.FRANCE, scores.get(4).getAwayTeam());
     }
+
+    @Test
+    void shouldReturnGamesSummaryInHumanReadableFormat() {
+        // given
+        List<TeamPair> boardData = List.of(
+                new TeamPair(WorldCupTeam.MEXICO, WorldCupTeam.CANADA),
+                new TeamPair(WorldCupTeam.SPAIN, WorldCupTeam.BRAZIL)
+        );
+
+        // when
+        boardData.forEach(it ->
+                underTest.startGame(scoreBoard, it.homeTeam, it.awayTeam)
+        );
+        List<String> scores = underTest.getGamesSummaryAsText(scoreBoard);
+
+        // then
+        assertEquals(2, scores.size());
+        assertEquals("1. Mexico 0 x 0 Canada", scores.get(0));
+        assertEquals("2. Spain 0 x 0 Brazil", scores.get(0));
+    }
 }

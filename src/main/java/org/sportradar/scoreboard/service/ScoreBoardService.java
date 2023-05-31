@@ -14,4 +14,6 @@ public interface ScoreBoardService {
     void finishGame(ScoreBoard board, Game game);
 
     List<Game> getGamesSummary(ScoreBoard board);
+
+    List<String> getGamesSummaryAsText(ScoreBoard board);
 }
