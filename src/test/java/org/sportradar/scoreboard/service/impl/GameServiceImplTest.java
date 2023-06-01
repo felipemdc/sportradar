@@ -19,9 +19,8 @@ class GameServiceImplTest {
     @Test
     void shouldCalculateTotalScore() {
         // given
-        Game game = new Game(WorldCupTeam.MEXICO, WorldCupTeam.ARGENTINA);
-        Score score = new Score(4, 5);
-        game.setScore(score);
+        Game game = new Game(1, WorldCupTeam.MEXICO, WorldCupTeam.ARGENTINA,
+                new Score(4, 5));
 
         // when
         int result = underTest.getTotalScore(game);
@@ -33,8 +32,8 @@ class GameServiceImplTest {
     @Test
     void shouldReturnGameSummaryInHumanReadableFashion() {
         // given
-        Game game = new Game(WorldCupTeam.MEXICO, WorldCupTeam.ARGENTINA);
-        game.setScore(new Score(4, 5));
+        Game game = new Game(1, WorldCupTeam.MEXICO, WorldCupTeam.ARGENTINA,
+                new Score(4, 5));
 
         // when
         String result = underTest.getGameHumanReadableSummaryLine(game);

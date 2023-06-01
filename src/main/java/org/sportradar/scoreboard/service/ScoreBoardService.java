@@ -14,7 +14,7 @@ public interface ScoreBoardService {
 
     void finishGame(ScoreBoard board, Game game);
 
-    void updateScore(ScoreBoard board, Game game, Score score);
+    Game updateScore(ScoreBoard board, Game game, Score score);
 
     List<Game> getGamesSummary(ScoreBoard board);
 

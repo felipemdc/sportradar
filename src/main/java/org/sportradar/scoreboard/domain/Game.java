@@ -3,23 +3,34 @@ package org.sportradar.scoreboard.domain;
 import java.util.Objects;
 
 public class Game {
-    private int orderInBoard = 0;
+    private final int orderInBoard;
     private final WorldCupTeam homeTeam;
     private final WorldCupTeam awayTeam;
-    private Score score;
+    private final Score score;
 
-    public Game(WorldCupTeam homeTeam, WorldCupTeam awayTeam) {
+    public Game(int orderInBoard, WorldCupTeam homeTeam, WorldCupTeam awayTeam) {
+        this.orderInBoard = orderInBoard;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         score = new Score(0, 0);
     }
 
-    public int getOrderInBoard() {
-        return orderInBoard;
+    public Game(int orderInBoard, WorldCupTeam homeTeam, WorldCupTeam awayTeam, Score score) {
+        this.orderInBoard = orderInBoard;
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        this.score = score;
     }
 
-    public void setOrderInBoard(int orderInBoard) {
-        this.orderInBoard = orderInBoard;
+    public Game(Game game, Score score) {
+        this.orderInBoard = game.orderInBoard;
+        this.homeTeam = game.homeTeam;
+        this.awayTeam = game.awayTeam;
+        this.score = score;
+    }
+
+    public int getOrderInBoard() {
+        return orderInBoard;
     }
 
     public WorldCupTeam getHomeTeam() {
@@ -32,10 +43,6 @@ public class Game {
 
     public Score getScore() {
         return score;
-    }
-
-    public void setScore(Score score) {
-        this.score = score;
     }
 
     @Override

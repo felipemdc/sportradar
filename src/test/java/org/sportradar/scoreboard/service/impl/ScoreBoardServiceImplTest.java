@@ -11,6 +11,7 @@ import org.sportradar.scoreboard.domain.ScoreBoard;
 import org.sportradar.scoreboard.domain.WorldCupTeam;
 import org.sportradar.scoreboard.service.GameService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,7 +31,7 @@ class ScoreBoardServiceImplTest {
     @BeforeEach
     void setUp() {
         underTest = new ScoreBoardServiceImpl(gameService);
-        scoreBoard = new ScoreBoard((o1, o2) -> o2.getOrderInBoard()-o1.getOrderInBoard());
+        scoreBoard = new ScoreBoard();
     }
 
     @Test
@@ -53,7 +54,7 @@ class ScoreBoardServiceImplTest {
 
         // when
         Game game = underTest.startGame(scoreBoard, WorldCupTeam.BRAZIL, WorldCupTeam.GERMANY);
-        List<Game> board = underTest.getGamesSummary(scoreBoard);
+        List<Game> board = new ArrayList<>(underTest.getGamesSummary(scoreBoard));
 
         // then
         assertEquals(board.size(), 1);
@@ -72,7 +73,7 @@ class ScoreBoardServiceImplTest {
         Game gameBrazilVsGermany = underTest.startGame(scoreBoard, teamBrazil, teamGermany);
         Game gameMexicoVsCanada = underTest.startGame(scoreBoard, teamMexico, teamCanada);
         underTest.finishGame(scoreBoard, gameBrazilVsGermany);
-        List<Game> board = underTest.getGamesSummary(scoreBoard);
+        List<Game> board = new ArrayList<>(underTest.getGamesSummary(scoreBoard));
 
         // then
         assertEquals(board.size(), 1);
@@ -82,15 +83,15 @@ class ScoreBoardServiceImplTest {
     @Test
     void shouldUpdateScore() {
         // given
-        Game game = new Game(WorldCupTeam.MEXICO, WorldCupTeam.ARGENTINA);
+        Game game = new Game(1, WorldCupTeam.MEXICO, WorldCupTeam.ARGENTINA);
         Score score = new Score(4, 5);
 
         // when
-        underTest.updateScore(scoreBoard, game, score);
+        Game result = underTest.updateScore(scoreBoard, game, score);
 
         // then
-        assertEquals(4, game.getScore().getHomeTeamScore());
-        assertEquals(5, game.getScore().getAwayTeamScore());
+        assertEquals(4, result.getScore().getHomeTeamScore());
+        assertEquals(5, result.getScore().getAwayTeamScore());
     }
 
     private record TeamPair(WorldCupTeam homeTeam, WorldCupTeam awayTeam) {
@@ -108,7 +109,7 @@ class ScoreBoardServiceImplTest {
         boardData.forEach(it ->
                 underTest.startGame(scoreBoard, it.homeTeam, it.awayTeam)
         );
-        List<Game> scores = underTest.getGamesSummary(scoreBoard);
+        List<Game> scores = new ArrayList<>(underTest.getGamesSummary(scoreBoard));
 
         // then
         assertEquals(2, scores.size());

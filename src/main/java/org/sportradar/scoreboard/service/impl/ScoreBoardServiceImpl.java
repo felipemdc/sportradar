@@ -19,50 +19,52 @@ public class ScoreBoardServiceImpl implements ScoreBoardService {
 
     @Override
     public ScoreBoard createBoard() {
-        return new ScoreBoard((o1, o2) -> {
-            int sortByTotalScore = Integer.compare(gameService.getTotalScore(o2),
-                    gameService.getTotalScore(o1));
-            if (sortByTotalScore == 0) {
-                return Integer.compare(o2.getOrderInBoard(), o1.getOrderInBoard());
-            } else {
-                return sortByTotalScore;
-            }
-        });
+        return new ScoreBoard();
     }
 
     @Override
     public Game startGame(ScoreBoard board, WorldCupTeam homeTeam, WorldCupTeam awayTeam) {
-        Game game = new Game(homeTeam, awayTeam);
         int idInBoard = board.getOrderCounter().incrementAndGet();
-        game.setOrderInBoard(idInBoard);
+        Game game = new Game(idInBoard, homeTeam, awayTeam);
         board.getGames().add(game);
-        board.getGames().sort(board.getComparator());
         return game;
     }
 
     @Override
-    public void finishGame(ScoreBoard board, Game game) {
+    public void finishGame(final ScoreBoard board, final Game game) {
         board.getGames().remove(game);
     }
 
     @Override
-    public void updateScore(final ScoreBoard board, final Game game, final Score score) {
-        game.setScore(score);
-        board.getGames().sort(board.getComparator());
+    public Game updateScore(final ScoreBoard board, final Game game, final Score score) {
+        Game newGame = new Game(game, score);
+        board.getGames().remove(game);
+        board.getGames().add(newGame);
+        return newGame;
     }
 
     @Override
-    public List<Game> getGamesSummary(ScoreBoard board) {
-        return board.getGames();
+    public List<Game> getGamesSummary(final ScoreBoard board) {
+        return board.getGames().stream()
+                .sorted((o1, o2) -> {
+                    int sortByTotalScore = Integer.compare(gameService.getTotalScore(o2),
+                            gameService.getTotalScore(o1));
+                    if (sortByTotalScore == 0) {
+                        return Integer.compare(o2.getOrderInBoard(), o1.getOrderInBoard());
+                    } else {
+                        return sortByTotalScore;
+                    }
+                }).toList();
     }
 
     @Override
-    public List<String> getGamesSummaryAsText(ScoreBoard board) {
+    public List<String> getGamesSummaryAsText(final ScoreBoard board) {
         List<Game> summary = getGamesSummary(board);
         List<String> result = new ArrayList<>();
-        for (int i = 0; i < summary.size(); i++) {
-            String summaryLine = gameService.getGameHumanReadableSummaryLine(summary.get(i));
-            result.add(String.format("%d. %s", i+1, summaryLine));
+        int position = 0;
+        for (Game game : summary) {
+            String summaryLine = gameService.getGameHumanReadableSummaryLine(game);
+            result.add(String.format("%d. %s", ++position, summaryLine));
         }
         return result;
     }

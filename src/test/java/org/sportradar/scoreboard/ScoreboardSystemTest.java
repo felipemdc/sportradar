@@ -11,6 +11,7 @@ import org.sportradar.scoreboard.service.ScoreBoardService;
 import org.sportradar.scoreboard.service.impl.GameServiceImpl;
 import org.sportradar.scoreboard.service.impl.ScoreBoardServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -52,7 +53,7 @@ public class ScoreboardSystemTest {
             scoreBoardService.updateScore(scoreBoard, game, it.score);
         }
         );
-        List<Game> scores = scoreBoardService.getGamesSummary(scoreBoard);
+        List<Game> scores = new ArrayList<>(scoreBoardService.getGamesSummary(scoreBoard));
 
         // then
         assertEquals(5, scores.size());
