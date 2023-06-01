@@ -1,6 +1,7 @@
 package org.sportradar.scoreboard.service;
 
 import org.sportradar.scoreboard.domain.Game;
+import org.sportradar.scoreboard.domain.Score;
 import org.sportradar.scoreboard.domain.ScoreBoard;
 import org.sportradar.scoreboard.domain.WorldCupTeam;
 
@@ -12,6 +13,8 @@ public interface ScoreBoardService {
     Game startGame(ScoreBoard board, WorldCupTeam homeTeam, WorldCupTeam awayTeam);
 
     void finishGame(ScoreBoard board, Game game);
+
+    void updateScore(ScoreBoard board, Game game, Score score);
 
     List<Game> getGamesSummary(ScoreBoard board);
 

@@ -49,7 +49,7 @@ public class ScoreboardSystemTest {
         // when
         teamPairToScoreMap.forEach(it -> {
             Game game = scoreBoardService.startGame(scoreBoard, it.homeTeam, it.awayTeam);
-            gameService.updateScore(game, it.score);
+            scoreBoardService.updateScore(scoreBoard, game, it.score);
         }
         );
         List<Game> scores = scoreBoardService.getGamesSummary(scoreBoard);

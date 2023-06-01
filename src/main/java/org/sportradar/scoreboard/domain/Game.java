@@ -34,7 +34,6 @@ public class Game {
         return score;
     }
 
-
     public void setScore(Score score) {
         this.score = score;
     }
@@ -50,12 +49,5 @@ public class Game {
     @Override
     public int hashCode() {
         return Objects.hash(homeTeam, awayTeam, score);
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%s %d x %d %s", homeTeam.getName(),
-                score.getHomeTeamScore(), score.getAwayTeamScore(),
-                awayTeam.getName());
     }
 }

@@ -17,16 +17,29 @@ class GameServiceImplTest {
     }
 
     @Test
-    void shouldUpdateScore() {
+    void shouldCalculateTotalScore() {
         // given
         Game game = new Game(WorldCupTeam.MEXICO, WorldCupTeam.ARGENTINA);
         Score score = new Score(4, 5);
+        game.setScore(score);
 
         // when
-        underTest.updateScore(game, score);
+        int result = underTest.getTotalScore(game);
 
         // then
-        assertEquals(4, game.getScore().getHomeTeamScore());
-        assertEquals(5, game.getScore().getAwayTeamScore());
+        assertEquals(9, result);
+    }
+
+    @Test
+    void shouldReturnGameSummaryInHumanReadableFashion() {
+        // given
+        Game game = new Game(WorldCupTeam.MEXICO, WorldCupTeam.ARGENTINA);
+        game.setScore(new Score(4, 5));
+
+        // when
+        String result = underTest.getGameHumanReadableSummaryLine(game);
+
+        // then
+        assertEquals("Mexico 4 x 5 Argentina", result);
     }
 }
