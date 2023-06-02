@@ -81,6 +81,18 @@ class ScoreBoardServiceImplTest {
     }
 
     @Test
+    void shouldntThrowExceptionWhenRemovingTheSameGameTwice() {
+        // given
+        WorldCupTeam teamBrazil = WorldCupTeam.BRAZIL;
+        WorldCupTeam teamGermany = WorldCupTeam.GERMANY;
+
+        // when
+        Game gameBrazilVsGermany = underTest.startGame(scoreBoard, teamBrazil, teamGermany);
+        underTest.finishGame(scoreBoard, gameBrazilVsGermany);
+        underTest.finishGame(scoreBoard, gameBrazilVsGermany);
+    }
+
+    @Test
     void shouldUpdateScore() {
         // given
         Game game = new Game(1, WorldCupTeam.MEXICO, WorldCupTeam.ARGENTINA);

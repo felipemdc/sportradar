@@ -31,6 +31,8 @@ to return Flip or Flop based on this counter.
 
 5. Assumed users of the library won't pass null anywhere
 
+6. Assumed we prefer no-op to exceptions in some corner cases like removing the same game twice
+
 ### Time complexities
 
 1. startGame - List.add is O(1), worse case O(n) due to array enlargement
